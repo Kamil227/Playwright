@@ -1,28 +1,24 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "@playwright/test"; // wskazanie ktore bibioteki beda uzywane
 
-test.describe("Pulpit tests", () => {
-
+test.describe("Pulpit tests", () => { //test describe to taka nazwa grupy testów. Samo test describe to funkcja playwrihta
   const userId = "testerLO";
-  
-  test.beforeEach(async ({ page }) => {
-    
-    const url = "https://demo-bank.vercel.app/index.html";
-    await page.goto(url);
-    
+
+  test.beforeEach(async ({ page }) => { // |async mówi o tym ze bede uywał await| () => funkcja strzałkowa
+    await page.goto("/"); // ulr jest w configu playwrighta
+
     const userPassword = "testelo1";
     await page.getByTestId("login-input").fill(userId);
     await page.getByTestId("password-input").fill(userPassword);
     await page.getByTestId("login-button").click();
+  });
 
-  })
-
-  test("test", async ({ page }) => {
+  test("quick paymment with correct data", async ({ page }) => {
     //Arrangeś
 
     const reciverId = "2";
     const transferAmount = "150";
     const transferTitle = "pizza";
-    const expectedTransferReciver = "BUG Chuck Demobankowy";
+    const expectedTransferReciver = "Chuck Demobankowy";
 
     //Act
     await page.locator("#widget_1_transfer_receiver").selectOption(reciverId);
@@ -37,7 +33,24 @@ test.describe("Pulpit tests", () => {
     );
   });
 
-  test.only("successful mobile top-up", async ({ page }) => {
+  test("successful mobile top-up", async ({ page }) => {
+    //Arrange
+
+    const topUpReciver = "500 xxx xxx";
+    const topUpAmount = "50";
+    const expectedMessage = `Doładowanie wykonane! ${topUpAmount},00PLN na numer ${topUpReciver}`;
+
+    //Act
+    await page.locator("#widget_1_topup_receiver").selectOption(topUpReciver);
+    await page.locator("#widget_1_topup_amount").fill(topUpAmount);
+    await page.getByRole("checkbox").check();
+    await page.getByRole("button", { name: "doładuj telefon" }).click();
+    await page.getByRole("button", { name: "Ok" }).click();
+
+    await expect(page.locator("#show_messages")).toHaveText(expectedMessage);
+  });
+
+  test.only("correct balance after successful mobile top-up", async ({ page }) => {
     //Arrange
 
     const topUpReciver = "500 xxx xxx";

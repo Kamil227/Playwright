@@ -3,9 +3,7 @@ import { test, expect } from "@playwright/test";
 test.describe("successful login with username", () => {
   test.beforeEach(async ({ page }) => {
 
-    const url = "https://demo-bank.vercel.app/index.html";
-    await page.goto(url);
-
+    await page.goto('/')
   })
 
   test("login with correct credentials", async ({ page }) => {
