@@ -2,9 +2,8 @@ import { test, expect } from "@playwright/test";
 
 test.describe("successful login with username", () => {
   test.beforeEach(async ({ page }) => {
-
-    await page.goto('/')
-  })
+    await page.goto("/");
+  });
 
   test("login with correct credentials", async ({ page }) => {
     // Arrange
