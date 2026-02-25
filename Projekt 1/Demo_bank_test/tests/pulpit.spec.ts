@@ -1,12 +1,15 @@
 import { test, expect } from "@playwright/test"; // wskazanie ktore bibioteki beda uzywane
+import { loginData, userId } from "../../../test_data/login.data";
 
-test.describe("Pulpit tests", () => { //test describe to taka nazwa grupy testów. Samo test describe to funkcja playwrihta
-  const userId = "testerLO";
+test.describe("Pulpit tests", () => {
+  //test describe to taka nazwa grupy testów. Samo test describe to funkcja playwrihta
 
-  test.beforeEach(async ({ page }) => { // |async mówi o tym ze bede uywał await| () => funkcja strzałkowa
+  test.beforeEach(async ({ page }) => {
+    // |async mówi o tym ze bede uywał await| () => funkcja strzałkowa
+    const userId = loginData.userId;
+    const userPassword = loginData.password;
+
     await page.goto("/"); // ulr jest w configu playwrighta
-
-    const userPassword = "testelo1";
     await page.getByTestId("login-input").fill(userId);
     await page.getByTestId("password-input").fill(userPassword);
     await page.getByTestId("login-button").click();
@@ -50,13 +53,13 @@ test.describe("Pulpit tests", () => { //test describe to taka nazwa grupy testó
     await expect(page.locator("#show_messages")).toHaveText(expectedMessage);
   });
 
-  test.only("correct balance after successful mobile top-up", async ({ page }) => {
+  test("correct balance after successful mobile top-up", async ({ page }) => {
     //Arrange
 
     const topUpReciver = "500 xxx xxx";
     const topUpAmount = "50";
     const expectedMessage = `Doładowanie wykonane! ${topUpAmount},00PLN na numer ${topUpReciver}`;
-    const initialBalance = await page.locator('#money_value').innerText();
+    const initialBalance = await page.locator("#money_value").innerText();
     const expectetBalance = Number(initialBalance) - Number(topUpAmount);
 
     //Act
