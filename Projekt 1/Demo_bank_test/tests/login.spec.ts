@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { loginData, userId } from "../../../test_data/login.data";
+import { LoginPage } from "../../../pages/login.page";
 
 test.describe("successful login with username", () => {
   test.beforeEach(async ({ page }) => {
@@ -8,43 +9,44 @@ test.describe("successful login with username", () => {
 
   test("login with correct credentials", async ({ page }) => {
     // Arrange
-    const userId = loginData.userId;
+    const validUserId = loginData.userId;
     const userPassword = loginData.password;
     const expectedUserName = "Jan Demobankowy";
 
-    //Act
-    await page.getByTestId("login-input").fill(userId);
-    await page.getByTestId("password-input").fill(userPassword);
-    await page.getByTestId("login-button").click();
+    // Act
+    const loginPage = new LoginPage(page);
+    await loginPage.loginInput.fill(validUserId);
+    await loginPage.passwordInput.fill(userPassword);
+    await loginPage.loginButton.click();
 
-    //Assert
+    // Assert
     await expect(page.getByTestId("user-name")).toHaveText(expectedUserName);
   });
 
   test("unsuccessful login with too short username", async ({ page }) => {
     // Arrange
-    const incorretUserId = "tester";
-    const incorectLoginMessage = "identyfikator ma min. 8 znaków";
-    //Act
-    await page.getByTestId("login-input").fill(incorretUserId);
+    const incorrectUserId = "tester";
+    const incorrectLoginMessage = "identyfikator ma min. 8 znaków";
+    // Act
+    await page.getByTestId("login-input").fill(incorrectUserId);
     await page.getByTestId("password-input").click();
-    //Asert
+    // Assert
     await expect(page.getByTestId("error-login-id")).toHaveText(
-      incorectLoginMessage,
+      incorrectLoginMessage,
     );
   });
   test("unsuccessful login with too short password", async ({ page }) => {
-    //Arange
+    // Arrange
     const userId = loginData.userId;
-    const incorectUserPassword = "tes";
-    const incorectPasswordMessage = "hasło ma min. 8 znaków";
-    //Act
+    const incorrectUserPassword = "tes";
+    const incorrectPasswordMessage = "hasło ma min. 8 znaków";
+    // Act
     await page.getByTestId("login-input").fill(userId);
-    await page.getByTestId("password-input").fill(incorectUserPassword);
+    await page.getByTestId("password-input").fill(incorrectUserPassword);
     await page.getByTestId("password-input").blur();
-    //Asert
+    // Assert
     await expect(page.getByTestId("error-login-password")).toHaveText(
-      incorectPasswordMessage,
+      incorrectPasswordMessage,
     );
   });
 });
