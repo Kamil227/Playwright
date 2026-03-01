@@ -1,11 +1,20 @@
 import { test, expect } from "@playwright/test";
-import { loginAsDefaultUser } from "./helpers/auth";
+import { loginData } from "../../../test_data/login.data";
+import { LoginPage } from "../../../pages/login.page";
 
 test.describe("Payment tests", () => {
   test.beforeEach(async ({ page }) => {
-    await loginAsDefaultUser(page);
-    await page.getByRole("link", { name: "płatności" }).click();
-    await expect(page.getByTestId("transfer_receiver")).toBeVisible();
+    const userId = loginData.userId;
+    const userPassword = loginData.userPassword;
+
+    await page.goto("/");
+    const loginPage = new LoginPage(page);
+
+    await loginPage.loginInput.fill(userId);
+    await loginPage.passwordInput.fill(userPassword);
+    await loginPage.loginButton.click();
+
+    await page.getByRole('link', { name: "płatności"}).click()
   });
 
   test("simple payment", async ({ page }) => {

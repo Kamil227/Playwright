@@ -1,9 +1,21 @@
 import { test, expect } from "@playwright/test";
-import { loginAsDefaultUser } from "./helpers/auth";
+import { loginData } from "../../../test_data/login.data";
+import { LoginPage } from "../../../pages/login.page";
 
 test.describe("Pulpit tests", () => {
   test.beforeEach(async ({ page }) => {
-    await loginAsDefaultUser(page);
+    const userId = loginData.userId;
+        const userPassword = loginData.userPassword;
+        const expertedUserName = 'Jan Demobankowy';
+    
+        await page.goto("/");
+        const loginPage = new LoginPage(page);
+    
+        await loginPage.loginInput.fill(userId);
+        await loginPage.passwordInput.fill(userPassword);
+        await loginPage.loginButton.click();
+    
+        await expect(page.getByTestId('user-name')).toHaveText(expertedUserName)
   });
 
   test("quick payment with correct data", async ({ page }) => {

@@ -10,12 +10,13 @@ test.describe("successful login with username", () => {
   test("login with correct credentials", async ({ page }) => {
     // Arrange
     const validUserId = loginData.userId;
-    const userPassword = loginData.password;
+    const userPassword = loginData.userPassword;
     const expectedUserName = "Jan Demobankowy";
+    const incorrectUserId = "elo";
 
     // Act
     const loginPage = new LoginPage(page);
-    await loginPage.loginInput.fill(validUserId);
+    await loginPage.loginInput.fill(userId);
     await loginPage.passwordInput.fill(userPassword);
     await loginPage.loginButton.click();
 
