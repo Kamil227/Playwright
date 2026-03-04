@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { loginData } from "../../../test_data/login.data";
 import { LoginPage } from "../../../pages/login.page";
+import { PulpitPage } from "../../../pages/pulpit.page";
 
 test.describe("Pulpit tests", () => {
   test.beforeEach(async ({ page }) => {
@@ -27,16 +28,16 @@ test.describe("Pulpit tests", () => {
     const expectedTransferReceiver = "Chuck Demobankowy";
 
     // Act
-    const loginPage = new LoginPage(page);
+    const pulpitPage = new PulpitPage(page);
 
-    await loginPage.receiverId.selectOption(receiverId);
-    await loginPage.transferAmountWidget.fill(transferAmount);
-    await loginPage.transferTitle.fill(transferTitle);
-    await loginPage.doneButton.click();
-    await loginPage.cloaseButton.click();
+    await pulpitPage.transferReciver.selectOption(receiverId);
+    await pulpitPage.transferAmount.fill(transferAmount);
+    await pulpitPage.transferTitle.fill(transferTitle);
+    await pulpitPage.transferButtom.click();
+    await pulpitPage.actionCloaseButton.click();
 
     // Assert
-    await expect(page.locator("#show_messages")).toContainText(
+    await expect(pulpitPage.messageText).toContainText(
       `Przelew wykonany! ${expectedTransferReceiver} - ${transferAmount},00PLN - ${transferTitle}`,
     );
   });
@@ -50,13 +51,11 @@ test.describe("Pulpit tests", () => {
 
     // Act
 
-    const loginPage = new LoginPage(page)
-    await loginPage.topUpReceiver.selectOption(topUpReceiver);
-    await loginPage.topUpAmount.fill(topUpAmount);
-    await loginPage.checkbox.check();
-    await loginPage.phoneButton.click();
-    await loginPage.okButton.click();
-
+    const pulpitPage = new PulpitPage(page);
+    await pulpitPage.topUpReceiverInput.selectOption(topUpReceiver);
+    await pulpitPage.topUpAmount.fill(topUpAmount);
+    await pulpitPage.topUpAgreementCheckbox.check();
+    await pulpitPage.topUpExecuteButton.click();
 
     await expect(page.locator("#show_messages")).toContainText(expectedMessage);
   });
@@ -71,14 +70,13 @@ test.describe("Pulpit tests", () => {
     const expectedBalance = initialBalanceValue - Number(topUpAmount);
 
     // Act
-    const loginPage = new LoginPage(page)
-    await loginPage.topUpReceiver.selectOption(topUpReceiver);
-    await loginPage.topUpAmount.fill(topUpAmount);
-    await loginPage.checkbox.check();
-    await loginPage.phoneButton.click();
-    await loginPage.okButton.click();
+    const pulpitPage = new PulpitPage(page);
+    await pulpitPage.topUpReceiverInput.selectOption(topUpReceiver);
+    await pulpitPage.topUpAmount.fill(topUpAmount);
+    await pulpitPage.topUpAgreementCheckbox.check();
+    await pulpitPage.topUpExecuteButton.click();
 
-    await expect(page.locator("#money_value")).toHaveText(
+    await expect(pulpitPage.moneyValueText).toHaveText(
       String(expectedBalance),
     );
   });

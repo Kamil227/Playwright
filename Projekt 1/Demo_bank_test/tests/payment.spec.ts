@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { loginData } from "../../../test_data/login.data";
 import { LoginPage } from "../../../pages/login.page";
+import { PaymentPage } from "../../../pages/payment.page";
 
 test.describe("Payment tests", () => {
   test.beforeEach(async ({ page }) => {
@@ -26,14 +27,14 @@ test.describe("Payment tests", () => {
     const expectedMessage = `Przelew wykonany! ${transferAmount},00PLN dla ${transferReceiver}`;
 
     // Act
-    const loginPage = new LoginPage(page);
-    await loginPage.transferReceiver.fill(transferReceiver);
-    await loginPage.transferAccount.fill(transferAccount);
-    await loginPage.transferAmount.fill(transferAmount);
-    await loginPage.payButton.click();
-    await loginPage.cloaseButton.click();
+    const paymentPage = new PaymentPage(page);
+    await paymentPage.transferReceiverInput.fill(transferReceiver);
+    await paymentPage.transferToInput.fill(transferAccount);
+    await paymentPage.transferAmountInput.fill(transferAmount);
+    await paymentPage.transferButton.click();
+    await paymentPage.actionCloseButton.click();
 
     // Assert
-    await expect(page.locator("#show_messages")).toContainText(expectedMessage);
+    await expect(paymentPage.messageText).toHaveText(expectedMessage);
   });
 });
