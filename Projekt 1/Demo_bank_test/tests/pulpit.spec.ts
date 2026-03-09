@@ -4,17 +4,18 @@ import { LoginPage } from "../../../pages/login.page";
 import { PulpitPage } from "../../../pages/pulpit.page";
 
 test.describe("Pulpit tests", () => {
+  let pulpitPage: PulpitPage;
+
   test.beforeEach(async ({ page }) => {
     const userId = loginData.userId;
     const userPassword = loginData.userPassword;
     const expertedUserName = "Jan Demobankowy";
 
+    pulpitPage = new PulpitPage(page);
+
     await page.goto("/");
     const loginPage = new LoginPage(page);
-
-    await loginPage.loginInput.fill(userId);
-    await loginPage.passwordInput.fill(userPassword);
-    await loginPage.loginButton.click();
+    await loginPage.login(userId, userPassword);
 
     await expect(page.getByTestId("user-name")).toHaveText(expertedUserName);
   });
@@ -28,8 +29,6 @@ test.describe("Pulpit tests", () => {
     const expectedTransferReceiver = "Chuck Demobankowy";
 
     // Act
-    const pulpitPage = new PulpitPage(page);
-
     await pulpitPage.transferReciver.selectOption(receiverId);
     await pulpitPage.transferAmount.fill(transferAmount);
     await pulpitPage.transferTitle.fill(transferTitle);
@@ -51,7 +50,6 @@ test.describe("Pulpit tests", () => {
 
     // Act
 
-    const pulpitPage = new PulpitPage(page);
     await pulpitPage.topUpReceiverInput.selectOption(topUpReceiver);
     await pulpitPage.topUpAmount.fill(topUpAmount);
     await pulpitPage.topUpAgreementCheckbox.check();
@@ -70,14 +68,11 @@ test.describe("Pulpit tests", () => {
     const expectedBalance = initialBalanceValue - Number(topUpAmount);
 
     // Act
-    const pulpitPage = new PulpitPage(page);
     await pulpitPage.topUpReceiverInput.selectOption(topUpReceiver);
     await pulpitPage.topUpAmount.fill(topUpAmount);
     await pulpitPage.topUpAgreementCheckbox.check();
     await pulpitPage.topUpExecuteButton.click();
 
-    await expect(pulpitPage.moneyValueText).toHaveText(
-      String(expectedBalance),
-    );
+    await expect(pulpitPage.moneyValueText).toHaveText(String(expectedBalance));
   });
 });

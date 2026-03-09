@@ -4,8 +4,11 @@ import { LoginPage } from "../../../pages/login.page";
 import { PulpitPage } from "../../../pages/pulpit.page";
 
 test.describe("successful login with username", () => {
+  let loginPage: LoginPage; // zmienna globalna odnosi sie do tego - loginPage = new LoginPage(page);
+
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
+    loginPage = new LoginPage(page); // To odnosi sie do tego wyrzej let loginPage
   });
 
   test("login with correct credentials", async ({ page }) => {
@@ -15,10 +18,7 @@ test.describe("successful login with username", () => {
     const expectedUserName = "Jan Demobankowy";
 
     // Act
-    const loginPage = new LoginPage(page);
-    await loginPage.loginInput.fill(userId);
-    await loginPage.passwordInput.fill(userPassword);
-    await loginPage.loginButton.click();
+    await loginPage.login(userId, userPassword); // to jest funkcja ktora dodalem w login page ts jako login
 
     // Assert
     const pulpitPage = new PulpitPage(page);
@@ -31,7 +31,6 @@ test.describe("successful login with username", () => {
     const incorrectLoginMessage = "identyfikator ma min. 8 znaków";
     // Act
 
-    const loginPage = new LoginPage(page);
     await loginPage.loginInput.fill(incorrectUserId);
     await loginPage.passwordInput.click();
 
@@ -45,7 +44,6 @@ test.describe("successful login with username", () => {
     const incorrectPasswordMessage = "hasło ma min. 8 znaków";
     // Act
 
-    const loginPage = new LoginPage(page);
     await loginPage.loginInput.fill(userId);
     await loginPage.passwordInput.fill(incorrectUserPassword);
     await loginPage.passwordInput.blur();
