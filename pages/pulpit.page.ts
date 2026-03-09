@@ -35,4 +35,19 @@ export class PulpitPage {
     this.moneyValueText = this.page.locator("#money_value");
     this.userNameText = this.page.getByTestId("user-name");
   }
+
+  async transfer(receiverId: string, transferAmount:string, transferTitle: string,) { Promise<void>
+    await this.transferReciver.selectOption(receiverId);
+    await this.transferAmount.fill(transferAmount);
+    await this.transferTitle.fill(transferTitle);
+    await this.transferButtom.click();
+    await this.actionCloaseButton.click();
+  }
+
+  async transferMobile(topUpReceiver: string, topUpAmount:string) { Promise<void>
+    await this.topUpReceiverInput.selectOption(topUpReceiver);
+    await this.topUpAmount.fill(topUpAmount);
+    await this.topUpAgreementCheckbox.check();
+    await this.topUpExecuteButton.click();
+  }
 }
