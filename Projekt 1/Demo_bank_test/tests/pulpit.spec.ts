@@ -29,7 +29,11 @@ test.describe("Pulpit tests", () => {
     const expectedTransferReceiver = "Chuck Demobankowy";
 
     // Act
-    await pulpitPage.transfer(receiverId, transferAmount, transferTitle);
+    await pulpitPage.executeQuickPayment(
+      receiverId,
+      transferAmount,
+      transferTitle,
+    );
 
     // Assert
     await expect(pulpitPage.messageText).toContainText(
@@ -46,7 +50,7 @@ test.describe("Pulpit tests", () => {
 
     // Act
 
-    await pulpitPage.transferMobile(topUpReceiver, topUpAmount);
+    await pulpitPage.executeMobileTopUp(topUpReceiver, topUpAmount);
 
     await expect(page.locator("#show_messages")).toContainText(expectedMessage);
   });
@@ -61,7 +65,7 @@ test.describe("Pulpit tests", () => {
     const expectedBalance = initialBalanceValue - Number(topUpAmount);
 
     // Act
-    await pulpitPage.transferMobile(topUpReceiver, topUpAmount);
+    await pulpitPage.executeMobileTopUp(topUpReceiver, topUpAmount);
 
     await expect(pulpitPage.moneyValueText).toHaveText(String(expectedBalance));
   });

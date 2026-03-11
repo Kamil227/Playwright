@@ -36,7 +36,12 @@ export class PulpitPage {
     this.userNameText = this.page.getByTestId("user-name");
   }
 
-  async transfer(receiverId: string, transferAmount:string, transferTitle: string,) { Promise<void>
+  async executeQuickPayment(
+    receiverId: string,
+    transferAmount: string,
+    transferTitle: string,
+  ) {
+    Promise<void>;
     await this.transferReciver.selectOption(receiverId);
     await this.transferAmount.fill(transferAmount);
     await this.transferTitle.fill(transferTitle);
@@ -44,7 +49,8 @@ export class PulpitPage {
     await this.actionCloaseButton.click();
   }
 
-  async transferMobile(topUpReceiver: string, topUpAmount:string) { Promise<void>
+  async executeMobileTopUp(topUpReceiver: string, topUpAmount: string) {
+    Promise<void>;
     await this.topUpReceiverInput.selectOption(topUpReceiver);
     await this.topUpAmount.fill(topUpAmount);
     await this.topUpAgreementCheckbox.check();
