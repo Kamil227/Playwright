@@ -3,7 +3,7 @@ import { loginData, userId } from "../../../test_data/login.data";
 import { LoginPage } from "../../../pages/login.page";
 import { PulpitPage } from "../../../pages/pulpit.page";
 
-test.describe("successful login with username", () => {
+test.describe("successful login with username", { tag: "@login" }, () => {
   let loginPage: LoginPage; // zmienna globalna odnosi sie do tego - loginPage = new LoginPage(page);
 
   test.beforeEach(async ({ page }) => {
@@ -11,21 +11,29 @@ test.describe("successful login with username", () => {
     loginPage = new LoginPage(page); // To odnosi sie do tego wyrzej let loginPage
   });
 
-  test("login with correct credentials", async ({ page }) => {
-    // Arrange
-    const userId = loginData.userId;
-    const userPassword = loginData.userPassword;
-    const expectedUserName = "Jan Demobankowy";
+  test(
+    "login with correct credentials",
+    {
+      tag: ["@login", "@smoke"],
+    },
+    async ({ page }) => {
+      // Arrange
+      const userId = loginData.userId;
+      const userPassword = loginData.userPassword;
+      const expectedUserName = "Jan Demobankowy";
 
-    // Act
-    await loginPage.login(userId, userPassword); // to jest funkcja ktora dodalem w login page ts jako login
+      // Act
+      await loginPage.login(userId, userPassword); // to jest funkcja ktora dodalem w login page ts jako login
 
-    // Assert
-    const pulpitPage = new PulpitPage(page);
-    await expect(pulpitPage.userNameText).toHaveText(expectedUserName);
-  });
+      // Assert
+      const pulpitPage = new PulpitPage(page);
+      await expect(pulpitPage.userNameText).toHaveText(expectedUserName);
+    },
+  );
 
-  test("unsuccessful login with too short username", async ({ page }) => {
+  test("unsuccessful login with too short username @login", async ({
+    page,
+  }) => {
     // Arrange
     const incorrectUserId = "tester";
     const incorrectLoginMessage = "identyfikator ma min. 8 znaków";
@@ -37,7 +45,9 @@ test.describe("successful login with username", () => {
     // Assert
     await expect(loginPage.loginError).toHaveText(incorrectLoginMessage);
   });
-  test("unsuccessful login with too short password", async ({ page }) => {
+  test("unsuccessful login with too short password @login", async ({
+    page,
+  }) => {
     // Arrange
     const userId = loginData.userId;
     const incorrectUserPassword = "tes";
