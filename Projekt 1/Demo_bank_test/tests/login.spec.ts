@@ -12,6 +12,8 @@ test.describe("Find button", () => {
     const loginPage = new LoginPage(page);
 
     await loginPage.loginInput.fill(loginData.valid.userId);
+    await loginPage.loginInput.blur()
+    await expect(loginPage.loginValidation).toBeHidden;
 
     
   });
