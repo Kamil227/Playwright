@@ -13,7 +13,7 @@ test.describe("Find button", () => {
 
     await loginPage.loginInput.fill(loginData.valid.userId);
     await loginPage.loginInput.blur()
-    await expect(loginPage.loginValidation).toBeHidden;
+    await expect(loginPage.loginValidation).toBeHidden();
 
     
   });
