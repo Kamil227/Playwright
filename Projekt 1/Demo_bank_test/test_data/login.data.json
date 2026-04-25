@@ -1,0 +1,9 @@
+{
+  "valid": {
+    "userId": "testuser",
+    "userPassword": "Test1234"
+  },
+  "invalid": {
+    "tooShortUserId": "tester"
+  }
+}
