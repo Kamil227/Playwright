@@ -4,6 +4,7 @@
     "userPassword": "Test1234"
   },
   "invalid": {
-    "tooShortUserId": "te"
+    "tooShortUserId": "te",
+    "toShortPassword": "test"
   }
 }
