@@ -3,7 +3,7 @@ import { LoginPage } from "../pages/login.page";
 import loginData from "../test_data/login.data.json";
 
 test.describe("Logowanie", () => {
-  test.beforeEach(async ({ appPage }) => {});
+  test.beforeEach(async ({  }) => {});
   test("Login - poprawnie", async ({ loginPage }) => {
     await loginPage.loginInput.fill(loginData.valid.userId);
     await loginPage.loginInput.blur();

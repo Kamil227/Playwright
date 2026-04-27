@@ -1,0 +1,13 @@
+{
+  "usersPayment": {
+    "userPayment": "Jan Demobankowy",
+    "userPayment1": "Chuck Demobankowy",
+    "userPayment2": "Michael Scott",
+    "IncorectUserPayment": "Jan Nowak"
+  },
+    "titlesPayment": {
+    "titlePayment": "Elo",
+    "titlePayment2": "Kasa za okup",
+    "titlePayment3": "Na waciki"
+  }
+}
