@@ -1,0 +1,7 @@
+{
+  "payments": {
+    "reciveAmount": "100",
+    "paymentTitle": "Testowy tytuł przelewu",
+    "paymentMessage": "Przelew wykonany!"
+  }
+}
