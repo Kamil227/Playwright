@@ -8,8 +8,14 @@ test.describe("Payments", () => {
   const revicer = clientsData.usersPayment.userPayment;
   const transferTitle = paymenstData.payments.paymentTitle;
   const showMessage = paymenstData.payments.paymentMessage;
+  const phoneNumber = paymenstData.payments.phoneNumber;
 
-  const paymentMessage = (showMessage: string, revicer: string, reciveAmount: string, transferTitle: string) => `${showMessage } ${revicer } - ${reciveAmount } - ${transferTitle}`; 
+  const paymentMessage = (
+    showMessage: string,
+    revicer: string,
+    reciveAmount: string,
+    transferTitle: string,
+  ) => `${showMessage} ${revicer} - ${reciveAmount} - ${transferTitle}`;
 
   test.beforeEach(async ({ appPage, loginPage, page }) => {
     await loginPage.loginInput.fill(loginData.valid.userId);
@@ -49,16 +55,40 @@ test.describe("Payments", () => {
 
     await paymentPage.transferTitle.fill(transferTitle);
 
-    await paymentPage.executeButton.click()
+    await paymentPage.executeButton.click();
 
-    await expect (paymentPage.modal).toContainText(revicer)
-    await expect (paymentPage.modal).toContainText(reciveAmount)
-    await expect (paymentPage.modal).toContainText(transferTitle)
+    await expect(paymentPage.modal).toContainText(revicer);
+    await expect(paymentPage.modal).toContainText(reciveAmount);
+    await expect(paymentPage.modal).toContainText(transferTitle);
+
+    await paymentPage.okModalButton.click();
+    const expectedPaymentMessage = paymentMessage(
+      showMessage,
+      revicer,
+      `${reciveAmount},00PLN`,
+      transferTitle,
+    );
+    await expect(paymentPage.transferMessage).toContainText(
+      expectedPaymentMessage,
+    );
+  });
+
+  test("Doładowanie telefonu", async ({ paymentPage }) => {
+    await paymentPage.phoneTransfer.selectOption(phoneNumber)
+    await paymentPage.phoneTransferAmount.fill(reciveAmount)
+    await paymentPage.phoneTransferCheckbox.check()
+    await paymentPage.phoneTransferButton.click()
+
+    await expect(paymentPage.phoneModal).toContainText(phoneNumber)
+    await expect(paymentPage.phoneModal).toContainText(reciveAmount)
 
     await paymentPage.okModalButton.click()
-    await expect(paymentPage.transferMessage).toHaveText(paymentMessage)
 
+    await expect(paymentPage.transferMessage).toHaveText( `Doładowanie wykonane! ${reciveAmount},00PLN na numer ${phoneNumber}`)
 
-
+    
   });
+
+
+
 });

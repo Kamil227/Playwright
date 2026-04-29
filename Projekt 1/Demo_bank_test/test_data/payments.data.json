@@ -2,6 +2,7 @@
   "payments": {
     "reciveAmount": "100",
     "paymentTitle": "Testowy tytuł przelewu",
-    "paymentMessage": "Przelew wykonany!"
+    "paymentMessage": "Przelew wykonany!",
+    "phoneNumber": "500 xxx xxx"
   }
 }

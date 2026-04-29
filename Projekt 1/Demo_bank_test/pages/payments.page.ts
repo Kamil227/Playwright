@@ -9,6 +9,11 @@ export class PaymentsPage {
   readonly modal: Locator;
   readonly okModalButton: Locator;
   readonly transferMessage: Locator;
+  readonly phoneTransfer: Locator;
+  readonly phoneTransferAmount: Locator;
+  readonly phoneTransferCheckbox: Locator;
+  readonly phoneTransferButton: Locator;
+  readonly phoneModal: Locator;
 
   constructor(page: Page) {
   
@@ -19,6 +24,12 @@ export class PaymentsPage {
     this.modal = page.getByRole('dialog', {name: 'Przelew wykonany'})
     this.okModalButton = page.getByRole('button', {name: 'Ok'})
     this.transferMessage = page.locator('#show_messages')
+    this.phoneTransfer = page.locator('#widget_1_topup_receiver')
+    this.phoneTransferAmount = page.locator('#widget_1_topup_amount')
+    this.phoneTransferCheckbox = page.locator('#uniform-widget_1_topup_agreement')
+    this.phoneTransferButton = page.getByRole('button', {name: 'doładuj telefon'})
+    this.phoneModal = page.getByRole('dialog', {name: 'Doładowanie wykonane'})
+
 
 
 
