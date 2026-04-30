@@ -9,6 +9,9 @@ test.describe("Payments", () => {
   const transferTitle = paymenstData.payments.paymentTitle;
   const showMessage = paymenstData.payments.paymentMessage;
   const phoneNumber = paymenstData.payments.phoneNumber;
+  const standardPaymentTransferReciver = clientsData.usersPayment.userPayment2;
+  const bankAcount = clientsData.bankNumbers.bankAcount;
+  const formTitle = paymenstData.payments.paymentTitle
 
   const paymentMessage = (
     showMessage: string,
@@ -74,21 +77,30 @@ test.describe("Payments", () => {
   });
 
   test("Doładowanie telefonu", async ({ paymentPage }) => {
-    await paymentPage.phoneTransfer.selectOption(phoneNumber)
-    await paymentPage.phoneTransferAmount.fill(reciveAmount)
-    await paymentPage.phoneTransferCheckbox.check()
-    await paymentPage.phoneTransferButton.click()
+    await paymentPage.phoneTransfer.selectOption(phoneNumber);
+    await paymentPage.amount.fill(reciveAmount);
+    await paymentPage.phoneTransferCheckbox.check();
+    await paymentPage.phoneTransferButton.click();
 
-    await expect(paymentPage.phoneModal).toContainText(phoneNumber)
-    await expect(paymentPage.phoneModal).toContainText(reciveAmount)
+    await expect(paymentPage.phoneModal).toContainText(phoneNumber);
+    await expect(paymentPage.phoneModal).toContainText(reciveAmount);
 
-    await paymentPage.okModalButton.click()
+    await paymentPage.okModalButton.click();
 
-    await expect(paymentPage.transferMessage).toHaveText( `Doładowanie wykonane! ${reciveAmount},00PLN na numer ${phoneNumber}`)
-
-    
+    await expect(paymentPage.transferMessage).toHaveText(
+      `Doładowanie wykonane! ${reciveAmount},00PLN na numer ${phoneNumber}`,
+    );
   });
 
-
-
+  test("Przelew standardowy", async ({ paymentPage }) => {
+    await paymentPage.standardPayment.click();
+    await paymentPage.standardPaymentTransferReciver.fill(
+      standardPaymentTransferReciver,
+    );
+    await paymentPage.bankAcount.fill(bankAcount);
+    await expect(paymentPage.addButton).toBeVisible(); 
+    await paymentPage.addButton.click()
+    await paymentPage.amount.fill(reciveAmount)
+    await paymentPage.formTitle.fill(formTitle)
+  });
 });

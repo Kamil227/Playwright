@@ -9,5 +9,8 @@
     "titlePayment": "Elo",
     "titlePayment2": "Kasa za okup",
     "titlePayment3": "Na waciki"
+  },
+  "bankNumbers": {
+   "bankAcount": "11 1111 1122 2222 2222 2222 2222"
   }
 }
