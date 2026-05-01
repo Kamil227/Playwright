@@ -12,5 +12,15 @@
   },
   "bankNumbers": {
    "bankAcount": "11 1111 1122 2222 2222 2222 2222"
+  },
+  "adress": {
+    "street": "Krakowska 1",
+    "city": "30-350, Kraków"
+  },
+  "email": {
+    "mail": "test@test.pl"
+  },
+  "nickNames": {
+    "nickReciver": "testowy"
   }
 }

@@ -18,6 +18,15 @@ export class PaymentsPage {
   readonly bankAcount: Locator;
   readonly formTitle: Locator;
   readonly addButton: Locator;
+  readonly streetName: Locator;
+  readonly cityName: Locator;
+  readonly calendar: Locator;
+  readonly transfertType: Locator;
+  readonly mailConfirm: Locator;
+  readonly addRevicer: Locator;
+  readonly mailAdressConfirm: Locator;
+  readonly reciverNick: Locator;
+  readonly confirmButton: Locator;
 
   constructor(page: Page) {
     this.transferReciver = page.locator("#widget_1_transfer_receiver");
@@ -43,7 +52,26 @@ export class PaymentsPage {
       "#widget_4_transfer_receiver",
     );
     this.bankAcount = page.locator("#widget_2_transfer_account");
-    this.formTitle = page.locator('#form_title')
-    this.addButton = page.locator('span.showhide[data-target="form_address"]')
+    this.formTitle = page.locator("#form_title");
+    this.addButton = page
+      .locator('span.showhide[data-target="form_address"]')
+      .first();
+    this.streetName = page.getByRole("textbox", {
+      name: "ulica i numer domu / mieszkania",
+    });
+    this.cityName = page.getByRole("textbox", {
+      name: "kod pocztowy, miejscowość",
+    });
+    this.calendar = page.locator("#form_date");
+    this.transfertType = page.getByRole("radio", { name: "ekspresowy" });
+    this.mailConfirm = page.getByRole("checkbox", {
+      name: "potwierdzenie e-mail",
+    });
+    this.mailAdressConfirm = page.locator('#form_email')
+    this.addRevicer = page.getByRole("checkbox", {
+      name: "dodaj do listy odbiorców",
+    });
+    this.reciverNick = page.locator('#form_receiver_name');
+    this.confirmButton = page.getByRole("button", { name: "wykonaj przelew" });
   }
 }

@@ -11,7 +11,11 @@ test.describe("Payments", () => {
   const phoneNumber = paymenstData.payments.phoneNumber;
   const standardPaymentTransferReciver = clientsData.usersPayment.userPayment2;
   const bankAcount = clientsData.bankNumbers.bankAcount;
-  const formTitle = paymenstData.payments.paymentTitle
+  const formTitle = paymenstData.payments.paymentTitle;
+  const street = clientsData.adress.street;
+  const city = clientsData.adress.city;
+  const mail = clientsData.email.mail;
+  const reciverNick = clientsData.nickNames.nickReciver;
 
   const paymentMessage = (
     showMessage: string,
@@ -93,14 +97,35 @@ test.describe("Payments", () => {
   });
 
   test("Przelew standardowy", async ({ paymentPage }) => {
+    const transferMessage = `Przelew wykonany! ${reciveAmount},00PLN dla ${standardPaymentTransferReciver}`;
+
     await paymentPage.standardPayment.click();
     await paymentPage.standardPaymentTransferReciver.fill(
       standardPaymentTransferReciver,
     );
     await paymentPage.bankAcount.fill(bankAcount);
-    await expect(paymentPage.addButton).toBeVisible(); 
-    await paymentPage.addButton.click()
-    await paymentPage.amount.fill(reciveAmount)
-    await paymentPage.formTitle.fill(formTitle)
+    await expect(paymentPage.addButton).toBeVisible();
+    await paymentPage.addButton.click();
+    await paymentPage.streetName.fill(street);
+    await paymentPage.cityName.fill(city);
+    await paymentPage.amount.fill(reciveAmount);
+    await paymentPage.formTitle.fill(formTitle);
+    await paymentPage.calendar.fill("10.05.2026");
+    await paymentPage.transfertType.click();
+    await paymentPage.mailConfirm.check();
+    await paymentPage.mailAdressConfirm.fill(mail);
+    await paymentPage.addRevicer.click();
+    await paymentPage.reciverNick.fill(reciverNick);
+    await paymentPage.confirmButton.click();
+
+    await expect(paymentPage.modal).toContainText(
+      standardPaymentTransferReciver,
+    );
+    await expect(paymentPage.modal).toContainText(reciveAmount);
+    await expect(paymentPage.modal).toContainText(transferTitle);
+
+    await paymentPage.okModalButton.click();
+
+    await expect(paymentPage.transferMessage).toHaveText(transferMessage);
   });
 });
