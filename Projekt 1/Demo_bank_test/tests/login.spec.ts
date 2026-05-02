@@ -3,7 +3,7 @@ import { LoginPage } from "../pages/login.page";
 import loginData from "../test_data/login.data.json";
 
 test.describe("Logowanie", () => {
-  test.beforeEach(async ({  }) => {});
+  test.beforeEach(async ({ appPage }) => {});
   test("Login - poprawnie", async ({ loginPage }) => {
     await loginPage.loginInput.fill(loginData.valid.userId);
     await loginPage.loginInput.blur();
@@ -44,6 +44,15 @@ test.describe("Logowanie", () => {
     await expect(page).toHaveURL('https://demo-bank.vercel.app/pulpit.html');
     await expect(loginPage.logOutButton).toBeVisible()
   });
+
+   test("Wylogowanie", async ({ loginPage,}) => {
+    await loginPage.loginInput.fill(loginData.valid.userId);
+    await loginPage.loginPassowrd.fill(loginData.valid.userPassword)
+    await loginPage.loginButton.click()
+    await loginPage.logOutButton.click()
+    await expect(loginPage.loginButton).toBeVisible()
+   });
+
 
 
 });
